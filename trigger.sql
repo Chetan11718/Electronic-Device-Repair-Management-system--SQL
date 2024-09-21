@@ -1,0 +1,18 @@
+DELIMITER $$
+CREATE TRIGGER QTY_ERROR BEFORE INSERT ON services FOR 	EACH ROW BEGIN DECLARE msg varchar(255);
+SET msg = CONCAT("Value must be less than or equal to 10. ");
+IF new.qty>10 THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+END IF;
+END$$
+DELIMITER ;
+
+--
+DELIMITER $$
+CREATE TRIGGER COST_ERROR BEFORE INSERT ON services FOR EACH ROW BEGIN DECLARE msg varchar(255);
+SET msg = CONCAT("Cost cannot be less than 0. ");
+IF new.estimated_price<1 THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+END IF;
+END$$
+DELIMITER ;
+
+
